@@ -1,25 +1,57 @@
 package chat.test;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import com.google.gson.Gson;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-@Path("/hello")
+@Path("/")
 public class HelloWorldService {
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/register")
+    public String register(String req) {
+        Gson gson = new Gson();
+        User user = gson.fromJson(req, User.class);
+        // TODO persist user to database
 
-    @GET
-    @Path("/{param}")
-    public Response getMsg(@PathParam("param") String msg) {
-        String output = "Jersey says hello : " + msg;
-        return Response.status(200).entity(output).build();
+        return "{success: true}";
     }
 
-    @GET
-    @Produces("text/plain")
-    @Path("/h")
-    public String getHello() {
-        return "Hello World";
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/login")
+    public String login(String req) {
+        Gson gson = new Gson();
+        User user = gson.fromJson(req, User.class);
+        // TODO get user from database
+
+        return "{success: true}";
+    }
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/view")
+    public String view(String req) {
+        Gson gson = new Gson();
+        User user = gson.fromJson(req, User.class);
+        // TODO get user from database
+
+        return "{success: true}";
+    }
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/edit")
+    public String edit(String req) {
+        Gson gson = new Gson();
+        User user = gson.fromJson(req, User.class);
+        // TODO edit user on database
+
+        return "{success: true}";
     }
 }
