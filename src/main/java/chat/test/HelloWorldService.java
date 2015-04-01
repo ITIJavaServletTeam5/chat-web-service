@@ -1,11 +1,16 @@
 package chat.test;
 
 import com.google.gson.Gson;
+import hibernate.DaoUser;
+import hibernate.User;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 
 @Path("/")
 public class HelloWorldService {
+    
+    DaoUser daoUser = DaoUser.getInstance();
     @POST
     @Consumes("application/json")
     @Produces("application/json")
@@ -15,7 +20,12 @@ public class HelloWorldService {
         User user = gson.fromJson(req, User.class);
         // TODO persist user to database
 
-        return "{success: true, user: " + gson.toJson(user) + "}";
+        boolean b = DaoUser.getInstance().presist(user);
+        if(b){
+        return "{success: true}";
+        }
+        return "{success: false, error: \"mobile already exists\"}";
+        
     }
 
     @POST
