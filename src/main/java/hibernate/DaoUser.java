@@ -62,7 +62,13 @@ public class DaoUser {
             session.close();
             return false;
         } else {
-            session.saveOrUpdate(u);
+            userSearched.setDisplayName(u.getDisplayName());
+            userSearched.setEmail(u.getEmail());
+            userSearched.setFullName(u.getFullName());
+            userSearched.setPassword(u.getPassword());
+            userSearched.setProfileImage(u.getProfileImage());
+
+            session.update(userSearched);
             session.getTransaction().commit();
             session.flush();
             session.close();
