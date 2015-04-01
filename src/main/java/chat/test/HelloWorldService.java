@@ -3,7 +3,6 @@ package chat.test;
 import com.google.gson.Gson;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 
 @Path("/")
 public class HelloWorldService {
@@ -16,7 +15,7 @@ public class HelloWorldService {
         User user = gson.fromJson(req, User.class);
         // TODO persist user to database
 
-        return "{success: true}";
+        return "{success: true, user: " + gson.toJson(user) + "}";
     }
 
     @POST
