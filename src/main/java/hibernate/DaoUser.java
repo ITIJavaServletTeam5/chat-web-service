@@ -6,75 +6,110 @@
 package hibernate;
 
 import java.util.List;
+
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 
 /**
- *
  * @author root
  */
 public class DaoUser {
     private static DaoUser instance = new DaoUser();
     SessionFactory sessionFactory;
-    
-    private DaoUser(){
+
+    private DaoUser() {
         this.sessionFactory = SessionUtil.getSessionFactory();
     }
 
     public static DaoUser getInstance() {
         return instance;
     }
-    
+
     //dao methods protected by singleton
-    public boolean presist(User u){
+    public boolean presist(User u) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        
+
         //find by example
-        List list= findByMobile(session, u.getMobile());
-        
-        if(list.isEmpty()){
+        User userSearched = findByMobile(session, u.getMobile());
+
+        if (userSearched == null) {
             session.persist(u);
-        session.getTransaction().commit();
-        session.flush();
-        session.close();
-        return true;
+            session.getTransaction().commit();
+            session.flush();
+            session.close();
+            return true;
+        } else {
+            session.getTransaction().commit();
+            session.flush();
+            session.close();
+            return false;
         }
-        session.getTransaction().commit();
-        session.flush();
-        session.close();
-        return false;
     }
-    
-    public boolean checkUser(User u ){
+
+    public boolean update(User u) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        
-        //find by example
-        List list= findByMobile(session, u.getMobile());
-        
-        if(list.isEmpty()){
-            session.persist(u);
-        session.getTransaction().commit();
-        session.flush();
-        session.close();
-        return false;
+
+        User userSearched = findByMobile(session, u.getMobile());
+
+        if (userSearched == null) {
+            session.getTransaction().commit();
+            session.flush();
+            session.close();
+            return false;
+        } else {
+            session.saveOrUpdate(u);
+            session.getTransaction().commit();
+            session.flush();
+            session.close();
+            return true;
         }
+    }
+
+    public boolean checkUser(User u) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        //find by example
+        User userSearched = findByMobile(session, u.getMobile());
+
+        if (userSearched == null) {
+            session.persist(u);
+            session.getTransaction().commit();
+            session.flush();
+            session.close();
+            return false;
+        } else {
+            session.getTransaction().commit();
+            session.flush();
+            session.close();
+            return false;
+        }
+    }
+
+    public User getByMobile (String mobile) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        User userSearched = findByMobile(session, mobile);
         session.getTransaction().commit();
         session.flush();
         session.close();
-        return false;
+        return userSearched;
     }
-    
-    private List findByMobile (Session s,String mobile){
-        Criteria c = s.createCriteria(User.class);
-        User searchUser = new User();
-        searchUser.setMobile(mobile);
-        Example example = Example.create(searchUser);
-        c.add(example);
-        
-        return c.list();
+
+    private User findByMobile(Session s, String mobile) {
+//        Criteria c = s.createCriteria(User.class);
+//        User searchUser = new User();
+//        searchUser.setMobile(mobile);
+//        Example example = Example.create(searchUser);
+//        c.add(example);
+//        return c.list();
+        Query query = s.createQuery("from User where mobile = ?");
+        query.setString(0, mobile);
+        return (User) query.uniqueResult();
     }
 }

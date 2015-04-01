@@ -45,4 +45,4 @@ release.properties
 dependency-reduced-pom.xml
 
 # remove hibernate xml
-hibernate.cfg.xml
+src/main/resources/hibernate.cfg.xml

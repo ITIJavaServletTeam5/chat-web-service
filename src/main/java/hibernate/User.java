@@ -14,7 +14,7 @@ public class User  implements java.io.Serializable {
      private String email;
      private String mobile;
      private String fullName;
-     private byte[] profileImage;
+     private String profileImage;
      private String password;
 
     public User() {
@@ -25,7 +25,7 @@ public class User  implements java.io.Serializable {
         this.mobile = mobile;
         this.password = password;
     }
-    public User(String displayName, String email, String mobile, String fullName, byte[] profileImage, String password) {
+    public User(String displayName, String email, String mobile, String fullName, String profileImage, String password) {
        this.displayName = displayName;
        this.email = email;
        this.mobile = mobile;
@@ -69,11 +69,11 @@ public class User  implements java.io.Serializable {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-    public byte[] getProfileImage() {
+    public String getProfileImage() {
         return this.profileImage;
     }
     
-    public void setProfileImage(byte[] profileImage) {
+    public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
     public String getPassword() {
@@ -83,10 +83,6 @@ public class User  implements java.io.Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
-
-
 }
 
 

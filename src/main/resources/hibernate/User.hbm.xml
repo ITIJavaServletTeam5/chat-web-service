@@ -4,27 +4,14 @@
 <!-- Generated Apr 1, 2015 5:23:04 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="hibernate.User" table="user" catalog="wschat" optimistic-lock="version">
-        <id name="id" type="java.lang.Integer">
-            <column name="id" />
+        <id name="id" column="id">
             <generator class="identity" />
         </id>
-        <property name="displayName" type="string">
-            <column name="display_name" length="45" />
-        </property>
-        <property name="email" type="string">
-            <column name="email" length="45" />
-        </property>
-        <property name="mobile" type="string">
-            <column name="mobile" length="45" not-null="true" unique="true" />
-        </property>
-        <property name="fullName" type="string">
-            <column name="full_name" length="45" />
-        </property>
-        <property name="profileImage" type="binary">
-            <column name="profile_image" />
-        </property>
-        <property name="password" type="string">
-            <column name="password" length="45" not-null="true" />
-        </property>
+        <property name="displayName" column="display_name" />
+        <property name="email" column="email"/>
+        <property name="mobile" column="mobile" not-null="true" unique="true"/>
+        <property name="fullName" column="full_name"/>
+        <property name="profileImage" column="profile_image" />
+        <property name="password" type="string" column="password" not-null="true" />
     </class>
 </hibernate-mapping>
